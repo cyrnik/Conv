@@ -1,12 +1,5 @@
 namespace Conv
 {
-    public partial class Form1 : Form
-    {
-        public Form1()
-        {
-            InitializeComponent();
-        }
-    }
     public class CurrencyConverter
     {
         private decimal usdToEur = 0.88m; // Примерный курс валют
@@ -107,3 +100,4 @@ namespace Conv
             }
         }
     }
+}
