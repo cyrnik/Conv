@@ -1,9 +1,13 @@
+using System;
+using System.Windows.Forms;
+
 namespace Conv
 {
     public class CurrencyConverter
     {
         private decimal usdToEur = 0.88m; // Примерный курс валют
         private decimal eurToUsd = 1.12m;
+
         public decimal Convert(decimal amount, string fromCurrency, string toCurrency)
         {
             if (amount < 0)
@@ -24,19 +28,24 @@ namespace Conv
             }
         }
     }
+
     public class CurrencyConverterForm : Form
     {
-        private CurrencyConverter converter;
+        private CurrencyConverter converter; // Инициализация конвертера
         private ComboBox fromCurrencyComboBox;
         private ComboBox toCurrencyComboBox;
         private TextBox amountTextBox;
         private Button convertButton;
         private Label resultLabel;
+
         public CurrencyConverterForm()
         {
+            converter = new CurrencyConverter(); // Инициализация экземпляра конвертера
+
             this.Text = "Конвертер валют";
             this.Width = 300;
             this.Height = 200;
+
             fromCurrencyComboBox = new ComboBox
             {
                 Location = new System.Drawing.Point(10, 10),
@@ -62,18 +71,21 @@ namespace Conv
                 Width = 210
             };
             convertButton.Click += ConvertButton_Click;
+
             resultLabel = new Label
             {
                 Location = new System.Drawing.Point(10, 100),
                 Width = 210,
                 Text = "Результат: "
             };
+
             this.Controls.Add(fromCurrencyComboBox);
             this.Controls.Add(toCurrencyComboBox);
             this.Controls.Add(amountTextBox);
             this.Controls.Add(convertButton);
             this.Controls.Add(resultLabel);
         }
+
         private void ConvertButton_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(amountTextBox.Text))
@@ -81,14 +93,24 @@ namespace Conv
                 MessageBox.Show("Введите сумму для конвертации!");
                 return;
             }
+
             decimal amount;
             if (!decimal.TryParse(amountTextBox.Text, out amount))
             {
                 MessageBox.Show("Неверный формат суммы!");
                 return;
             }
+
+            // Проверка на выбор валют
+            if (fromCurrencyComboBox.SelectedItem == null || toCurrencyComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Пожалуйста, выберите валюты для конвертации!");
+                return;
+            }
+
             string fromCurrency = fromCurrencyComboBox.SelectedItem.ToString();
             string toCurrency = toCurrencyComboBox.SelectedItem.ToString();
+
             try
             {
                 decimal result = converter.Convert(amount, fromCurrency, toCurrency);
