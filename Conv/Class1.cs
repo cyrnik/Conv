@@ -14,13 +14,10 @@ namespace Conv
         public TextBox amountTextBox;
         public Button convertButton;
         public Label resultLabel;
-        public Button saveButton;
 
         public CurrencyConverterForm()
         {
             converter = new CurrencyConverter(); // Инициализация экземпляра конвертера
-
-
 
             this.Text = "Конвертер валют";
             this.Width = 300;
@@ -52,7 +49,6 @@ namespace Conv
             };
             convertButton.Click += ConvertButton_Click;
 
-
             resultLabel = new Label
             {
                 Location = new System.Drawing.Point(10, 100),
@@ -60,61 +56,11 @@ namespace Conv
                 Text = "Результат: "
             };
 
-            saveButton = new Button
-            {
-                Location = new System.Drawing.Point(10, 130),
-                Text = "Сохранить",
-                Width = 210
-            };
-            saveButton.Click += SaveButton_Click;
-
             this.Controls.Add(fromCurrencyComboBox);
             this.Controls.Add(toCurrencyComboBox);
             this.Controls.Add(amountTextBox);
             this.Controls.Add(convertButton);
             this.Controls.Add(resultLabel);
-            this.Controls.Add(saveButton);
-        }
-
-        public void SaveButton_Click(object sender, EventArgs e) //Метод обрабатывающий событие ConvertButton_Click
-        {
-            if (string.IsNullOrEmpty(amountTextBox.Text))
-            {
-                MessageBox.Show("Введите сумму для конвертации!");
-                return;
-            }
-
-            decimal amount;
-            if (!decimal.TryParse(amountTextBox.Text, out amount))
-            {
-                MessageBox.Show("Неверный формат суммы!");
-                return;
-            }
-
-            // Проверка на выбор валют
-            if (fromCurrencyComboBox.SelectedItem == null || toCurrencyComboBox.SelectedItem == null)
-            {
-                MessageBox.Show("Пожалуйста, выберите валюты для конвертации!");
-                return;
-            }
-
-
-
-            string fromCurrency = fromCurrencyComboBox.SelectedItem.ToString();
-            string toCurrency = toCurrencyComboBox.SelectedItem.ToString();
-
-            try
-            {
-                decimal result = converter.Convert(amount, fromCurrency, toCurrency);
-                string report = $"{amount} {fromCurrency} = {result} {toCurrency}";
-                File.WriteAllText("convert_report.txt", report);
-                MessageBox.Show("Отчёт сформирован и сохранён в файл convert_report.txt!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
         }
 
         public void ConvertButton_Click(object sender, EventArgs e) //Метод обрабатывающий событие ConvertButton_Click
@@ -138,8 +84,6 @@ namespace Conv
                 MessageBox.Show("Пожалуйста, выберите валюты для конвертации!");
                 return;
             }
-
-
 
             string fromCurrency = fromCurrencyComboBox.SelectedItem.ToString();
             string toCurrency = toCurrencyComboBox.SelectedItem.ToString();

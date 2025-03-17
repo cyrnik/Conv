@@ -1,10 +1,8 @@
 using System;
 using System.Windows.Forms;
-using System.IO;
 
 namespace Conv
 {
-
     public class CurrencyConverter
     {
         public decimal usdToEur = 0.88m; // Примерный курс валют
@@ -48,7 +46,6 @@ namespace Conv
             {
                 throw new NotSupportedException("Не поддерживаемая пара валют.");
             }
-
         }
     }
 
